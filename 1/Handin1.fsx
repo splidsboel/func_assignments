@@ -48,6 +48,10 @@ power(System.Math.PI, fact 2)   = float
 
 // Exercise 1.9
 (*
+a -> 5
+f -> fun a -> a+1
+g -> fun b -> (f b) +a
+
 f 3 = val it: int = 4
 g 3 = val it: int = 9 
 *)
@@ -57,9 +61,9 @@ let dup (a:string) = a + a
 
 // Exercise 1.11
 
-//let dupn (s: string)(n:int) = s * (n: int)       TRY 1
+let rec dupn (s,n) =
+    match (s,n) with 
+    |(s,0) -> ""
+    |(s,n) -> s + dupn(s,n-1)
 
-let rec dupn (s:string)(n:int) = function
-    | (s,0) -> 0
-    | (s, 1) -> (s)
-    | (s, _) -> s + dupn s (n - 1)
+dupn("hi", 3)
