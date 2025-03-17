@@ -82,4 +82,40 @@ let rec trans (fe, x) : Instruction list =
 
 
 (*------------6.3 (HR 7.2)---------------*)
-//see qnum.fsi and qnum.fs
+(*
+I wanted to hand in two separate files for the signature and implementation files, but learnit won't let me,
+so I'll just paste them here.
+I have them in a comment because vscode does not like (*) for the overloaded multiplication function. 
+I assume this is because it interprets it as a multi-line comment that is not finished.
+*)
+
+//qnum.fsi:
+(* 
+module qnum 
+
+type ComplexNumber = {first:float; second:float}
+
+val (+) : ComplexNumber -> ComplexNumber -> ComplexNumber
+val (-) : ComplexNumber -> ComplexNumber -> ComplexNumber
+val (*) : ComplexNumber -> ComplexNumber -> ComplexNumber
+val (/) : ComplexNumber -> ComplexNumber -> ComplexNumber
+ *)
+
+//qnum.fs
+
+(* 
+let (+) a b =
+    { first = a.first + b.first; second = a.second + b.second }
+
+let (-) a b =
+    { first = a.first - b.first; second = a.second - b.second }
+
+let (*) a b =
+    { first = a.first * b.first - a.second * b.second;
+      second = a.first * b.second + a.second * b.first }
+
+let (/) a b =
+    let denominator = b.first ** 2.0 + b.second ** 2.0
+    { first = (a.first * b.first + a.second * b.second) / denominator;
+      second = (a.second * b.first - a.first * b.second) / denominator } 
+*)
