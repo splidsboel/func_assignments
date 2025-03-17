@@ -65,7 +65,8 @@ let rec intpProgram l sta =
 
 
 
-//3.  
+//3. Maybe I'm misunderstanding the hint, but I don't see how to create the instruction list from the postfix string representation 
+// from the previous FexprPostfix function. But I use the same kind of logic to pattern match here. 
 let rec trans (fe, x) : Instruction list =
     match fe with
     | Const c -> [PUSH c]  
