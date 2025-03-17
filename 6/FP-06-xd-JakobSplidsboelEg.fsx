@@ -56,7 +56,7 @@ let intpInstr (sta: Stack) inst :Stack =
     |PUSH r, x -> r::x
     |_, sta -> failwith "no match for instruction"
 
-//2. 
+//2. I don't understand why the type is list<Instruction> -> list<float> -> float. But I think the functionality is correct
 let rec intpProgram l sta =
     match l, sta with
     |[], x1::rest -> x1
@@ -64,10 +64,21 @@ let rec intpProgram l sta =
     |_,[] -> failwith "stack is empty"
 
 
-(* let trans fe x =
-    match fe, x with
-    |
- *)
+
+//3.  
+let rec trans (fe, x) : Instruction list =
+    match fe with
+    | Const c -> [PUSH c]  
+    | X -> [PUSH x]        
+    | Add (e1, e2) -> trans (e1, x) @ trans (e2, x) @ [ADD]
+    | Sub (e1, e2) -> trans (e1, x) @ trans (e2, x) @ [SUB]
+    | Mul (e1, e2) -> trans (e1, x) @ trans (e2, x) @ [MULT]
+    | Div (e1, e2) -> trans (e1, x) @ trans (e2, x) @ [DIV]
+    | Sin e -> trans (e, x) @ [SIN]
+    | Cos e -> trans (e, x) @ [COS]
+    | Log e -> trans (e, x) @ [LOG]
+    | Exp e -> trans (e, x) @ [EXP]
+
 
 
 (*------------6.3 (HR 7.2)---------------*)
