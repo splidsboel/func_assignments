@@ -102,4 +102,7 @@ let rec zipSeq s1 s2 =
     seq {
         let e1 = Seq.item 0 s1
         let e2 = Seq.item 0 s2
-                    }
+        yield (e1, e2)
+        yield! zipSeq (Seq.skip 1 e1) (Seq.skip 1 e2)
+    }
+
