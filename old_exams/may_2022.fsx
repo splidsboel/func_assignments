@@ -203,7 +203,70 @@ f2 3 [1;2;3]
 //3.3
 // f is not tail-recursive because the recursive calls with the cons (::) operator would build up the stack
 
-let fA x ls = 
-    match ls with 
-    |[] -> []
-    |x::xs when x=y -> 
+let fA x ls  = 
+    let rec loop acc = function
+        |[] -> List.rev acc
+        |y::ys when x=y -> loop acc ys
+        |y::ys -> loop (y::acc) ys
+    loop [] ls
+
+fA 1 [1; 1; 2;3]
+fA 2 [1;2;3]
+fA 3 [1;2;3]
+
+//3.4
+let fSeq x ys =
+    let found = ref false
+    seq {
+        for y in ys do
+            if not found.Value && y=x then
+                found := true 
+            else
+                yield y
+    }
+
+fSeq 1 (seq [1; 1; 2; 3])
+// Expected: [1; 2; 3]
+
+fSeq 2 (seq [1; 2; 3])
+// Expected: [1; 3]
+
+fSeq 3 (seq [1; 2; 3])
+// Expected: [1; 2]
+
+fSeq 4 (seq [1; 2; 3])
+// Expected: [1; 2; 3]  (4 not in the list)
+
+fSeq 2 (Seq.empty)
+// Expected: []
+
+(*----------------------------------------Question 4----------------------------------------*)
+
+//4.1
+type Field = ValField of int
+type FieldMap = Map<string, Field>
+
+let fieldMap = Map.ofList [("A", ValField 42); ("B", ValField 43); ("C", ValField 0)]
+let fieldNames = List.map fst (Map.toList fieldMap)
+
+let getField fm fn = Map.find fn fm
+
+List.map(getField fieldMap) fieldNames
+
+let getFieldValue field = 
+    match field with
+    |ValField(v) -> v
+
+let lookupFieldValue fm  = getField fm >> getFieldValue 
+
+List.map (lookupFieldValue fieldMap) fieldNames
+
+
+let updateField fm fn newValue = 
+    Map.change fn (function
+        |Some _ -> Some (ValField newValue)
+        |None -> failwithf "Field '%s' not found" fn) fm
+
+updateField fieldMap "A" 32
+
+//4.2
