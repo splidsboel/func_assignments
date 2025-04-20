@@ -165,6 +165,8 @@ countAC is faster because it has the accumulator that it can return.
 let nats = Seq.initInfinite (fun i-> i)
 let odds = Seq.filter (fun i -> i%2=1) nats
 
+let oddsBetter = Seq.initInfinite (fun i -> 2*i+1)
+
 
 (*-----------------------------------8.6 (HR 11.2)------------------------------------------*)
 
@@ -177,3 +179,7 @@ let facts = Seq.initInfinite (fun i -> fact i)
 
 //example of finding the third element in the sequence of factorials
 Seq.item 3 facts
+
+//better fact sequence
+let fac = Seq.unfold (fun (i, prev) -> 
+    let next = (i * prev) in Some (next, (i + 1, next))) (1, 1)
