@@ -146,3 +146,29 @@ let Z = Seq.toList (Seq.take 10 C)
 
 h ( * ) (4,1)
 
+
+
+(*--------------------------Problem 3--------------------------*)
+
+type Title = string
+
+type Section = Title * Elem list
+and Elem = Par of string | Sub of Section
+
+type Chapter = Title * Section list
+type Book = Chapter list
+let maxL ls = 
+    match ls with
+    |[] -> 0
+    |ls -> ls |> List.sortDescending |> List.head
+
+let overview (bk:Book) =
+    let rec overviewA acc bk =
+        match bk with
+        |[] -> acc
+        |x::xs ->
+            match x with
+            |(title, _) -> 
+                overviewA (title::acc) xs
+    overviewA [] bk
+
