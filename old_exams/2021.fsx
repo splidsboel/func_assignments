@@ -238,6 +238,29 @@ type resolvedInst =
     | RPUSH of int
     | RIFNZGOTO of int
     | REXIT
-
+    
 type prog = Map<int,resolvedInst>
 
+let buildEnv insts =
+    let rec build idx env = 
+        function
+        [] -> env
+        | LABEL lab :: insts -> build idx (Map.add idx lab env) insts
+        | _ :: insts -> build (idx+1) env insts
+    build 0 Map.empty insts
+
+type env = Map<string,int>
+let lookup l m =
+    match Map.tryFind l m with
+    None -> failwith "Value not in map"
+    | Some v -> v
+
+(* let resolveInsts insts env =
+    let rec resolve idx = function
+        [] -> Map.empty
+        | LABEL lab :: insts -> resolve idx insts
+        | ADD :: insts -> Map.add idx RADD (resolve (idx+1) insts)
+        | IFNZGOTO lab :: insts -> Map.add idx (RIFNZGOTO (lookup ...)) (resolve ...)
+        |
+    resolve 0 insts
+ *)
