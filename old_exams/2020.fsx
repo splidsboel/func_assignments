@@ -56,3 +56,86 @@ let add k v (MyMap m) =
 
         match m with
         | *)
+
+
+(*------------------------------------Question 2------------------------------------*)
+//2.1
+let even n = if n%2=0 then true else false
+
+let collatz n =
+    match n with
+    |n when (even n) -> n/2
+    |n -> 3*n+1
+
+let collatz' n =
+    match n with
+    |n when (even n) && n<>0 -> n/2
+    |n when n>0 -> 3*n+1
+    |_ -> failwith "n is zero or less"
+
+//2.2
+let applyN f n N = 
+    let rec applyNacc f n N acc =
+        match N with
+        |0 -> n::acc
+        |_ -> applyNacc f (f n) (N-1) (n::acc)
+    List.rev(applyNacc f n N [])
+
+let applyUntilOne f n =
+    let rec applyUntilOneX f n i = 
+        match i with
+        |0 -> failwith "should not get here"
+        |_ -> if n=1 then 100000000-i else applyUntilOneX f (f n) (i-1)
+    applyUntilOneX f n 100000000
+
+
+//2.3
+let rec mySeq f x =
+    seq{ 
+        yield x
+        yield! mySeq f (f x)
+    }
+
+Seq.take 20(mySeq collatz 42) |> Seq.toList
+(*
+The function returns an infinite sequence with x being the first number
+followed by the rest of the sequence recursively calculated. This basically
+just returns the collatz sequence 
+*)
+
+let rec g x = 
+    seq{
+        yield x
+        yield! g (x*2)
+    }
+
+(*----------------------------------------Question 3----------------------------------------*)
+type name = string
+type quantity = float
+type date = int * int * int
+type price = float
+type transType = Buy | Sell
+type transData = date * quantity * price * transType
+type trans = name * transData
+
+let ts : trans list =
+    [("ISS", ((24,02,2014),100.0,218.99,Buy)); ("Lego",((16,03,2015),250.0,206.72,Buy));
+    ("ISS", ((23,02,2016),825.0,280.23,Buy)); ("Lego",((08,03,2016),370.0,280.23,Buy));
+    ("ISS", ((24,02,2017),906.0,379.46,Buy)); ("Lego",((09,11,2017), 80.0,360.81,Sell));
+    ("ISS", ((09,11,2017),146.0,360.81,Sell)); ("Lego",((14,11,2017),140.0,376.55,Sell));
+    ("Lego",((20,02,2018),800.0,402.99,Buy)); ("Lego",((02,05,2018),222.0,451.80,Sell));
+    ("ISS", ((22,05,2018),400.0,493.60,Buy)); ("ISS", ((19,09,2018),550.0,564.00,Buy));
+    ("Lego",((27,03,2019),325.0,625.00,Sell)); ("ISS", ((25,11,2019),200.0,680.50,Sell));
+    ("Lego",((18,02,2020),300.0,720.00,Sell))]
+
+//Map.tryFind. matching on options
+let addTransToMap (t:trans) (m: Map<name, transData list>) =
+    match t with
+    |(k,v) -> 
+        match (Map.tryFind k m) with
+        |None -> Map.add k (v::[]) m
+        |Some x -> Map.add k (v::x) m
+
+let m1 = addTransToMap ("ISS", ((24,02,2014),100.0,218.99,Buy)) Map.empty
+let m2 = addTransToMap ("ISS", ((22,05,2018),400.0,493.60,Buy)) m1
+
