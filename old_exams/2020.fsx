@@ -139,3 +139,44 @@ let addTransToMap (t:trans) (m: Map<name, transData list>) =
 let m1 = addTransToMap ("ISS", ((24,02,2014),100.0,218.99,Buy)) Map.empty
 let m2 = addTransToMap ("ISS", ((22,05,2018),400.0,493.60,Buy)) m1
 
+let shares = List.foldBack addTransToMap ts
+
+//3.2
+
+
+
+(*------------------------------------------------Question 4------------------------------------------------*)
+
+//4.1
+let rec dup = function
+    |[]->[]
+    |x::xs ->x::x::dup xs
+
+(*
+The dup function returns a list with each element duplicated. 
+For instance (dup [1;2;3]) would return [1;1;2;2;3;3]
+*)
+let rec dupA acc = function
+    |[]-> List.rev acc
+    |x::xs -> dupA (x::x::acc) xs
+
+
+//4.2
+//constructing finite sequence
+let replicate2 i = 
+    seq{
+        yield i
+        yield i
+    }
+
+//infinite sequence of duplicate numbers. duplicate numbers in sequence
+let dupSeq  = Seq.initInfinite (fun i -> i/2)
+
+//4.3
+let dupSeq2 s =
+    seq{
+        for i in s do
+            yield i
+            yield i
+    }
+
