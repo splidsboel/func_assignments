@@ -165,7 +165,7 @@ let student =
     ]
 
 //4.2
-let nl = System.Environment.NewLine // New line
+(* let nl = System.Environment.NewLine // New line
 let space n = String.replicate n " " // Make n spaces
 let ppQuote s = "\"" + s + "\"" // Put quotes around string s
 let ppJSONlite json =
@@ -174,4 +174,4 @@ let ppJSONlite json =
         | ...
 and ppJSONlite' indent = function
     Object xs -> ...
-    ppJSONlite' 0 json
+    ppJSONlite' 0 json *)
