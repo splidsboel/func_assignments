@@ -1,0 +1,7 @@
+{
+    "editor.inlayHints.enabled": "offUnlessPressed",
+    "[fsharp]": {
+        "editor.inlayHints.enabled": "off"
+    },
+    "FSharp.inlayHints.parameterNames": false
+}

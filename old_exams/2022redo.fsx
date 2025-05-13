@@ -41,7 +41,7 @@ let isPaper item =
     |Paper s -> true
     |_ -> false
 
-//1.2
+//1.2. 
 type TrashCan<'a> =
     Empty
     | TrashItems of TrashItem<'a> * TrashCan<'a>

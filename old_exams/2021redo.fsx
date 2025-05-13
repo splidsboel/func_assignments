@@ -86,6 +86,7 @@ ulist02 = ulist01
 returns false because F# compares lists on elements are in them. And since 
 two buckets changed their size and elems, they are no longer equal*)
 
+//unit function
 let emptyUL<'a> () : UList<'a> = []
 
 //2.2
